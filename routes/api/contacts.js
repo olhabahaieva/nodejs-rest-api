@@ -8,7 +8,7 @@ const addSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
   phone: Joi.string().required(),
-})
+});
 const { HttpError } = require("../../helpers");
 
 router.get("/", async (req, res, next) => {
@@ -44,7 +44,6 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  // res.json({ message: "template message" });
 });
 
 router.delete("/:contactId", async (req, res, next) => {
@@ -52,7 +51,21 @@ router.delete("/:contactId", async (req, res, next) => {
 });
 
 router.put("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
+  try {
+    const { error } = addSchema.validate(req.body);
+    if (error) {
+      throw HttpError(400, "Missing required name field");
+    }
+    const { contactId } = req.params;
+    const result = await contacts.updateContact(contactId, req.body)
+    if(!result) {
+      throw HttpError(404, "Not found");
+    }
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+  
 });
 
 module.exports = router;
