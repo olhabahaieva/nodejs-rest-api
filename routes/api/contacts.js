@@ -1,7 +1,14 @@
 const express = require("express");
+const Joi = require("joi");
 
 const router = express.Router();
 const contacts = require("../../models/contacts");
+
+const addSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  phone: Joi.string().required(),
+})
 const { HttpError } = require("../../helpers");
 
 router.get("/", async (req, res, next) => {
@@ -22,15 +29,18 @@ router.get("/:contactId", async (req, res, next) => {
     }
     res.json(result);
   } catch (error) {
-   next(error);
+    next(error);
   }
-  // res.json({ message: "template message" });
 });
 
 router.post("/", async (req, res, next) => {
   try {
+    const { error } = addSchema.validate(req.body);
+    if (error) {
+      throw HttpError(400, "Missing required name field");
+    }
     const result = await contacts.addContact(req.body);
-    res.status(201).json(result)
+    res.status(201).json(result);
   } catch (error) {
     next(error);
   }
