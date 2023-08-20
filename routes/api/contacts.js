@@ -16,16 +16,15 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:contactId", async (req, res, next) => {
   try {
-    const {contactId} = req.params;
+    const { contactId } = req.params;
     const result = await contacts.getContactById(contactId);
-    res.json(result);
-
-    if(!result){
+    if (!result) {
       return res.status(404).json({
         message: "Not Found",
       });
     }
-   
+    res.json(result);
+    
   } catch (error) {
     res.status(500).json({
       message: "Server error",

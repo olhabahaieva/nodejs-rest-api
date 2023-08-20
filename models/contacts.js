@@ -2,7 +2,7 @@ const fs = require("fs/promises");
 const path = require("path");
 const crypto = require("crypto");
 
-const contactsPath = path.join(__dirname, "contacts123.json");
+const contactsPath = path.join(__dirname, "contacts.json");
 
 async function listContacts() {
   const data = await fs.readFile(contactsPath, "utf-8");
@@ -11,12 +11,8 @@ async function listContacts() {
 
 async function getContactById(contactId) {
   const data = await listContacts();
-
   const dataId = data.find((contact) => contact.id === contactId);
-  if (!dataId) {
-    return null;
-  }
-  return dataId;
+  return dataId || null;
 }
 
 async function removeContact(contactId) {
