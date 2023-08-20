@@ -21,7 +21,7 @@ async function getContactById(contactId) {
   
   const dataId = data.find((contact) => contact.id === contactId);
   if (!dataId) {
-    return null;
+    return "Not found";
   }
    return dataId;
 }

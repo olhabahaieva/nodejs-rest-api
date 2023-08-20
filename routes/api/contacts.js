@@ -15,7 +15,20 @@ router.get("/", async (req, res, next) => {
 });
 
 router.get("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
+  try {
+    const {contactId} = req.params;
+    const result = await contacts.getContactById(contactId);
+    res.json(result);
+   
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+    });
+    res.status(404).json({
+      message: "Not Found",
+    });
+  }
+  // res.json({ message: "template message" });
 });
 
 router.post("/", async (req, res, next) => {
