@@ -2,28 +2,21 @@ const fs = require("fs/promises");
 const path = require("path");
 const crypto = require("crypto");
 
-const contactsPath = path.join(__dirname, 'contacts.json');
+const contactsPath = path.join(__dirname, "contacts123.json");
 
 async function listContacts() {
-  try {
-    const data = await fs.readFile(contactsPath, "utf-8");
-    return JSON.parse(data);
-  } catch (error) {
-    // return [];
-    error.status(500).json({
-      message: "Server error"
-    })
-  }
+  const data = await fs.readFile(contactsPath, "utf-8");
+  return JSON.parse(data);
 }
 
 async function getContactById(contactId) {
   const data = await listContacts();
-  
+
   const dataId = data.find((contact) => contact.id === contactId);
   if (!dataId) {
-    return "Not found";
+    return null;
   }
-   return dataId;
+  return dataId;
 }
 
 async function removeContact(contactId) {
@@ -40,10 +33,10 @@ async function removeContact(contactId) {
   return data[index];
 }
 
-async function addContact({name, email, phone}) {
+async function addContact({ name, email, phone }) {
   const data = await listContacts();
   const newContact = {
-    id: crypto.randomUUID(), 
+    id: crypto.randomUUID(),
     name,
     email,
     phone,
