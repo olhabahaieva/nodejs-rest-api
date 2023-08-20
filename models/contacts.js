@@ -9,7 +9,10 @@ async function listContacts() {
     const data = await fs.readFile(contactsPath, "utf-8");
     return JSON.parse(data);
   } catch (error) {
-    return [];
+    // return [];
+    error.status(500).json({
+      message: "Server error"
+    })
   }
 }
 
