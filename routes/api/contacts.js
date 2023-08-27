@@ -7,7 +7,7 @@ const {schemas} = require("../../models/contact");
 
 router.get("/", ctrl.listContacts);
 
-// router.get("/:contactId", ctrl.getContactById);
+router.get("/:contactId", ctrl.getContactById);
 
 // router.post("/", validateBody(schemas.addSchema), ctrl.addContact);
 
