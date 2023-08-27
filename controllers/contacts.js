@@ -32,19 +32,19 @@ const addContact = async (req, res) => {
 //   });
 // };
 
-// const updateContact = async (req, res) => {
-//   const { contactId } = req.params;
-//   const result = await contacts.updateContact(contactId, req.body);
-//   if (!result) {
-//     throw HttpError(404, "Not found");
-//   }
-//   res.json(result);
-// };
+const updateContact = async (req, res) => {
+  const { contactId } = req.params;
+  const result = await Contact.findByIdAndUpdate(contactId, req.body, {new:true});
+  if (!result) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(result);
+};
 
 module.exports = {
   listContacts: ctrlWrapper(listContacts),
   getContactById: ctrlWrapper(getContactById),
   addContact: ctrlWrapper(addContact),
   // removeContact: ctrlWrapper(removeContact),
-  // updateContact: ctrlWrapper(updateContact),
+  updateContact: ctrlWrapper(updateContact),
 };
