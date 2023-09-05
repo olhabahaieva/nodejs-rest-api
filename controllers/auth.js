@@ -56,8 +56,18 @@ const getCurrent = async(req, res, next) =>{
     })
 }
 
+const logout = async(req, res, next) => {
+    const {_id} = req.user;
+    await User.findByIdAndUpdate(_id, {token: ""});
+
+    res.json({
+        message: "Logout success"
+    })
+}
+
 module.exports = {
     register: ctrlWrapper(register),
     login: ctrlWrapper(login),
     getCurrent: ctrlWrapper(getCurrent),
+    logout: ctrlWrapper(logout),
 }
