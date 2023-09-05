@@ -3,7 +3,8 @@ const { Contact } = require("../models/contact");
 const { HttpError, ctrlWrapper } = require("../helpers");
 
 const listContacts = async (req, res) => {
-  const result = await Contact.find();
+  const {_id: owner} = req.user;
+  const result = await Contact.find({owner});
   res.json(result);
 };
 
